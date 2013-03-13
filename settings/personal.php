@@ -13,8 +13,12 @@ $defaults = new OC_Defaults(); // initialize themable default strings and urls
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
 OC_Util::addStyle( 'settings', 'settings' );
+OC_Util::addScript( '3rdparty', 'strengthify/jquery.strengthify' );
+OC_Util::addStyle( '3rdparty', 'strengthify/strengthify' );
 OC_Util::addScript( '3rdparty', 'chosen/chosen.jquery.min' );
 OC_Util::addStyle( '3rdparty', 'chosen' );
+
+// Highlight navigation entry
 OC_App::setActiveNavigationEntry( 'personal' );
 
 $storageInfo=OC_Helper::getStorageInfo();
