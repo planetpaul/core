@@ -68,25 +68,32 @@ $totalsize = 0; ?>
 	<?php if ($totaldirs !== 0 || $totalfiles !== 0): ?>
 	<tr class="summary">
 		<td><span class="info">
-			<?php if ($totaldirs !== 0) {
-				p($totaldirs.' ');
-				if ($totaldirs === 1) {
-					p($l->t('directory'));
+			<?php
+				// TODO use proper l10n plurals
+				if ($totaldirs !== 0 && $totalfiles === 0) {
+					if ($totaldirs === 1) {
+						p($l->t('%d directory', $totaldirs));
+					} else {
+						p($l->t('%d directories', $totaldirs));
+					}
+				} elseif ($totaldirs === 0 && $totalfiles !== 0) {
+					if ($totalfiles === 1) {
+						p($l->t('%d file', $totalfiles));
+					} else {
+						p($l->t('%d files', $totalfiles));
+					}
 				} else {
-					p($l->t('directories'));
+					if ($totaldirs === 1 && $totalfiles === 1) {
+						p($l->t('%d directory and %d file', array($totaldirs, $totalfiles)));
+					} elseif ($totaldirs > 1 && $totalfiles === 1) {
+						p($l->t('%d directories and %d file', array($totaldirs, $totalfiles)));
+					} elseif ($totaldirs === 1 && $totalfiles > 1) {
+						p($l->t('%d directory and %d files', array($totaldirs, $totalfiles)));
+					} else {
+						p($l->t('%d directories and %d files', array($totaldirs, $totalfiles)));
+					}
 				}
-			}
-			if ($totaldirs !== 0 && $totalfiles !== 0) {
-				p(' & ');
-			}
-			if ($totalfiles !== 0) {
-				p($totalfiles.' ');
-				if ($totalfiles === 1) {
-					p($l->t('file'));
-				} else {
-					p($l->t('files'));
-				}
-			} ?>
+			?>
 		</span></td>
 		<td class="filesize">
 		<?php print_unescaped(OCP\human_file_size($totalsize)); ?>
