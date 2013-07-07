@@ -166,7 +166,7 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 	height: 70px;
 }
 
-.summary:hover, .summary {
+.summary:hover, .summary, table tr.summary td {
 	background-color: transparent;
 }
 
