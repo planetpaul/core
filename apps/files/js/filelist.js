@@ -413,24 +413,26 @@ var FileList={
 				else if (value.dataset.type === 'file') { totalfiles++; }
 				totalsize += parseInt(value.dataset.size);
 			});
-			// TODO use proper l10n plurals
-			var translatedinfo = t('files', '{dirs} directory(ies){connectorhtml} and {files} file(s)');
-			tempinfo = '<span class="info"><span class="dirinfo">' + translatedinfo + '</span></span>';
-			var info = $(tempinfo).octemplate({
-				dirs: '<span class="dirs">' + totaldirs + '</span>',
-				connectorhtml: '</span><span class="connector">',
-				files: '</span><span class="fileinfo"><span class="files">'+ totalfiles + '</span>'
-			}, {escapeFunction: null})[0].outerHTML;
 
+			// Get translations
+			var directoryinfo = tp('files', '%n folder', '%n folders', totaldirs);
+			var fileinfo = tp('files', '%n file', '%n files', totalfiles);
+
+			var infovars = {
+				dirs: '<span class="dirinfo">'+directoryinfo+'</span><span class="connector">',
+				files: '</span><span class="fileinfo">'+fileinfo+'</span>'
+			}
+
+			var info = t('files', '{dirs} and {files}', infovars);
 			var filesize = '<td class="filesize" title="'+humanFileSize(totalsize)+'">'+simpleFileSize(totalsize)+'</td>';
-
-			$('#fileList').append('<tr class="summary"><td>'+info+'</td>'+filesize+'<td></td></tr>');
+			$('#fileList').append('<tr class="summary"><td><span class="info">'+info+'</span></td>'+filesize+'<td></td></tr>');
 
 			// Show only what's necessary, e.g.: no files: don't show "0 files"
-			if ($('.summary .dirs').html() === "0") {
+			if ($('.summary .dirinfo').html().charAt(0) === "0") {
 				$('.summary .dirinfo').hide();
 				$('.summary .connector').hide();
-			} else if ($('.summary .files').html() === "0") {
+			}
+			if ($('.summary .fileinfo').html().charAt(0) === "0") {
 				$('.summary .fileinfo').hide();
 				$('.summary .connector').hide();
 			}
@@ -449,14 +451,17 @@ var FileList={
 					totalsize += parseInt(value.dataset.size);
 				}
 			});
-			$('.summary .dirs').html(totaldirs);
-			$('.summary .files').html(totalfiles);
+
+			// Substitute old content with new translations
+			$('.summary .dirinfo').html(tp('files', '%n folder', '%n folders', totaldirs));
+			$('.summary .fileinfo').html(tp('files', '%n file', '%n files', totalfiles));
 			$('.summary .filesize').html(simpleFileSize(totalsize));
 			$('.summary .filesize').attr('title', humanFileSize(totalsize));
-			if ($('.summary .dirs').html() === "0") {
+			if ($('.summary .dirs').html().charAt(0) === "0") {
 				$('.summary .dirinfo').hide();
 				$('.summary .connector').hide();
-			} else if ($('.summary .files').html() === "0") {
+			}
+			if ($('.summary .files').html().charAt(0) === "0") {
 				$('.summary .fileinfo').hide();
 				$('.summary .connector').hide();
 			}
