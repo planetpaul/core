@@ -402,7 +402,7 @@ var FileList={
 				});
 	},
 	createFileSummary: function() {
-		if( $('tr[data-file]').length > 0 ) {
+		if( $('#fileList tr').length > 0 ) {
 			var totaldirs = 0;
 			var totalfiles = 0;
 			var totalsize = 0;
@@ -415,8 +415,8 @@ var FileList={
 			});
 
 			// Get translations
-			var directoryinfo = tp('files', '%n folder', '%n folders', totaldirs);
-			var fileinfo = tp('files', '%n file', '%n files', totalfiles);
+			var directoryinfo = n('files', '%n folder', '%n folders', totaldirs);
+			var fileinfo = n('files', '%n file', '%n files', totalfiles);
 
 			var infovars = {
 				dirs: '<span class="dirinfo">'+directoryinfo+'</span><span class="connector">',
@@ -424,7 +424,7 @@ var FileList={
 			}
 
 			var info = t('files', '{dirs} and {files}', infovars);
-			var filesize = '<td class="filesize" title="'+humanFileSize(totalsize)+'">'+simpleFileSize(totalsize)+'</td>';
+			var filesize = '<td class="filesize">'+humanFileSize(totalsize)+'</td>';
 			$('#fileList').append('<tr class="summary"><td><span class="info">'+info+'</span></td>'+filesize+'<td></td></tr>');
 
 			// Show only what's necessary, e.g.: no files: don't show "0 files"
@@ -439,7 +439,11 @@ var FileList={
 		}
 	},
 	updateFileSummary: function() {
-		if( $('tr[data-file]').length > 0 ) {
+		if ($('#fileList tr').length === 1 && $('.summary').length === 1) { // Check if we should remove the summary to show "Upload something"
+			$('.summary').remove();
+		} else if ($('.summary').length === 0) { // If there's no summary create one (createFileSummary checks if there's data)
+			FileList.createFileSummary();
+		} else if ($('#fileList tr').length > 1 && $('.summary').length === 1) { // There's a summary and data -> Update the summary
 			var totaldirs = 0;
 			var totalfiles = 0;
 			var totalsize = 0;
@@ -447,23 +451,30 @@ var FileList={
 				if (value.dataset.type === 'dir') { totaldirs++; }
 				else if (value.dataset.type === 'file') { totalfiles++; }
 				if (value.dataset.size !== undefined) {
-					console.log(value.dataset.size);
 					totalsize += parseInt(value.dataset.size);
 				}
 			});
 
 			// Substitute old content with new translations
-			$('.summary .dirinfo').html(tp('files', '%n folder', '%n folders', totaldirs));
-			$('.summary .fileinfo').html(tp('files', '%n file', '%n files', totalfiles));
-			$('.summary .filesize').html(simpleFileSize(totalsize));
-			$('.summary .filesize').attr('title', humanFileSize(totalsize));
-			if ($('.summary .dirs').html().charAt(0) === "0") {
+			$('.summary .dirinfo').html(n('files', '%n folder', '%n folders', totaldirs));
+			$('.summary .fileinfo').html(n('files', '%n file', '%n files', totalfiles));
+			$('.summary .filesize').html(humanFileSize(totalsize));
+
+			// Show only what's necessary (may be hidden)
+			if ($('.summary .dirinfo').html().charAt(0) === "0") {
 				$('.summary .dirinfo').hide();
 				$('.summary .connector').hide();
+			} else {
+				$('.summary .dirinfo').show();
 			}
-			if ($('.summary .files').html().charAt(0) === "0") {
+			if ($('.summary .fileinfo').html().charAt(0) === "0") {
 				$('.summary .fileinfo').hide();
 				$('.summary .connector').hide();
+			} else {
+				$('.summary .fileinfo').show();
+			}
+			if ($('.summary .dirinfo').html().charAt(0) !== "0" && $('.summary .fileinfo').html().charAt(0) !== "0") {
+				$('.summary .connector').show();
 			}
 		}
 	}
