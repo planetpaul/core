@@ -47,6 +47,9 @@
 	padding:0 .3em;
 }
 
+ #searchresults td.result {
+	width:250px;
+ }
 #searchresults td.result div.text {
 	padding-left:1em;
 	white-space:nowrap;
@@ -54,6 +57,10 @@
 
 #searchresults td.result * {
 	cursor:pointer;
+}
+
+#searchresults td.container {
+	width:20px;
 }
 
 #searchresults td.type {

@@ -52,6 +52,12 @@ OC.search.showResults=function(results){
 					row.find('td.result a').attr('href',type[i].link);
 					row.find('td.result div.name').text(type[i].name);
 					row.find('td.result div.text').text(type[i].text);
+					if (type[i].containerLink) {
+						var td = row.find('td.container');
+						td.append('<a><img></img></a>');
+						td.find('img').attr('src',OC.imagePath('core','filetypes/folder.png'));
+						td.find('a').attr('href',type[i].containerLink);
+					}
 					row.data('index',index);
 					index++;
 					if(OC.search.customResults[name]){//give plugins the ability to customize the entries in here

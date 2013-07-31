@@ -546,6 +546,15 @@ $(document).ready(function() {
 			}
 		});
 	}
+	
+	//scroll to and highlight preselected file
+	if (getURLParameter('scrollto')) {
+		var scrolltorow = $('tr[data-file="'+getURLParameter('scrollto')+'"]');
+		if (scrolltorow.length > 0) {
+			scrolltorow.addClass('scrollto');
+			$(window).scrollTop(scrolltorow.position().top);
+		}
+	}
 });
 
 function scanFiles(force, dir, users){
