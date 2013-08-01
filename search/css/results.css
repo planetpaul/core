@@ -43,13 +43,12 @@
 }
 
 #searchresults td {
-	vertical-align:top;
 	padding:0 .3em;
 }
 
- #searchresults td.result {
+#searchresults td.result {
 	width:250px;
- }
+}
 #searchresults td.result div.text {
 	padding-left:1em;
 	white-space:nowrap;
@@ -61,6 +60,14 @@
 
 #searchresults td.container {
 	width:20px;
+}
+
+#searchresults td.container img {
+	vertical-align: middle;
+	display:none;
+}
+#searchresults tr:hover td.container img {
+	display:inline;
 }
 
 #searchresults td.type {

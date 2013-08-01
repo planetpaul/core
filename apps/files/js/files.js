@@ -553,6 +553,9 @@ $(document).ready(function() {
 		if (scrolltorow.length > 0) {
 			scrolltorow.addClass('scrollto');
 			$(window).scrollTop(scrolltorow.position().top);
+			scrolltorow.one('hover', function(){
+				scrolltorow.removeClass('scrollto');
+			});
 		}
 	}
 });

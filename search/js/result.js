@@ -52,11 +52,20 @@ OC.search.showResults=function(results){
 					row.find('td.result a').attr('href',type[i].link);
 					row.find('td.result div.name').text(type[i].name);
 					row.find('td.result div.text').text(type[i].text);
-					if (type[i].containerLink) {
+					if (type[i].container) {
 						var td = row.find('td.container');
 						td.append('<a><img></img></a>');
-						td.find('img').attr('src',OC.imagePath('core','filetypes/folder.png'));
-						td.find('a').attr('href',type[i].containerLink);
+						td.find('img').attr('src',OC.imagePath('core','places/folder'));
+						var containerName = OC.basename(type[i].container);
+						if (containerName === '') {
+							containerName = '/';
+						}
+						var containerLink = OC.linkTo('files','index.php')
+								+'?dir='+encodeURIComponent(type[i].container)
+								+'&scrollto='+encodeURIComponent(type[i].name);
+						row.find('td.container a')
+								.attr('href',containerLink)
+								.attr('title',t('core','Show in {folder}',{folder: containerName}));
 					}
 					row.data('index',index);
 					index++;
