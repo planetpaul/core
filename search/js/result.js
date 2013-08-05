@@ -11,6 +11,7 @@ OC.search.catagorizeResults=function(results){
 }
 OC.search.hide=function(){
 	$('#searchresults').hide();
+	FileList.unfilter();
 	if($('#searchbox').val().length>2){
 		$('#searchbox').val('');
 	};
@@ -30,6 +31,7 @@ OC.search.showResults=function(results){
 			});
 			$(document).click(function(event){
 				OC.search.hide();
+				FileList.unfilter();
 			});
 			OC.search.lastResults=results;
 			OC.search.showResults(results);
