@@ -55,7 +55,6 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testMimeType() {
-		$this->markTestSkipped("When loading from data or base64, imagetype is always image/png, see #4258.");
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals('image/png', $img->mimeType());
 
