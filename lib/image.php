@@ -26,8 +26,11 @@
 class OC_Image {
 	protected $resource = false; // tmp resource.
 	protected $imagetype = IMAGETYPE_PNG; // Default to png if file type isn't evident.
+	protected $mimetype;
 	protected $bit_depth = 24;
 	protected $filepath = null;
+
+	private $fileinfo;
 
 	/**
 	* @brief Get mime type for an image file.
@@ -56,6 +59,11 @@ class OC_Image {
 			OC_Log::write('core', __METHOD__.'(): GD module not installed', OC_Log::ERROR);
 			return false;
 		}
+
+		if (\OC_Util::fileInfoLoaded()) {
+			$this->fileinfo = new finfo(FILEINFO_MIME_TYPE);
+		}
+
 		if(!is_null($imageref)) {
 			$this->load($imageref);
 		}
@@ -74,7 +82,7 @@ class OC_Image {
 	* @returns int
 	*/
 	public function mimeType() {
-		return $this->valid() ? image_type_to_mime_type($this->imagetype) : '';
+		return $this->valid() ? $this->mimetype : '';
 	}
 
 	/**
@@ -233,7 +241,21 @@ class OC_Image {
 	*/
 	function data() {
 		ob_start();
-		$res = imagepng($this->resource);
+		switch ($this->mimetype) {
+			case "image/png":
+				$res = imagepng($this->resource);
+				break;
+			case "image/jpeg":
+				$res = imagejpeg($this->resource);
+				break;
+			case "image/gif":
+				$res = imagegif($this->resource);
+				break;
+			default:
+				$res = imagepng($this->resource);
+				OC_Log::write('core', 'OC_Image->data. Couldn\'t guess mimetype, defaulting to png', OC_Log::INFO);
+				break;
+		}
 		if (!$res) {
 			OC_Log::write('core', 'OC_Image->data. Error getting image data.', OC_Log::ERROR);
 		}
@@ -481,6 +503,7 @@ class OC_Image {
 		}
 		if($this->valid()) {
 			$this->imagetype = $itype;
+			$this->mimetype = image_type_to_mime_type($itype);
 			$this->filepath = $imagepath;
 		}
 		return $this->resource;
@@ -496,6 +519,7 @@ class OC_Image {
 			return false;
 		}
 		$this->resource = @imagecreatefromstring($str);
+		$this->mimetype = $this->fileinfo->buffer($str);
 		if(!$this->resource) {
 			OC_Log::write('core', 'OC_Image->loadFromData, couldn\'t load', OC_Log::DEBUG);
 			return false;
@@ -515,6 +539,7 @@ class OC_Image {
 		$data = base64_decode($str);
 		if($data) { // try to load from string data
 			$this->resource = @imagecreatefromstring($data);
+			$this->mimetype = $this->fileinfo->buffer($data);
 			if(!$this->resource) {
 				OC_Log::write('core', 'OC_Image->loadFromBase64, couldn\'t load', OC_Log::DEBUG);
 				return false;
