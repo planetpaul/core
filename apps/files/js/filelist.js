@@ -414,14 +414,18 @@ var FileList={
 		}
 	},
 	filter:function(query){
-		$('#fileList tr').each(function(i,e){
+		$('#fileList tr:not(.summary)').each(function(i,e){
 			if ($(e).data('file').toLowerCase().indexOf(query.toLowerCase()) !== -1) {
 				$(e).addClass("searchresult");
 			} else {
 				$(e).removeClass("searchresult");
 			}
 		});
-		FileList.scrollTo($('#fileList tr.searchresult').first().data('file'));
+		//do not use scrollto to prevent removing searchresult css class
+		var first = $('#fileList tr.searchresult').first();
+		if (first.length !== 0) {
+			$(window).scrollTop(first.position().top);
+		}
 	},
 	unfilter:function(){
 		$('#fileList tr.searchresult').each(function(i,e){

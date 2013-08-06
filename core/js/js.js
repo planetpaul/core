@@ -620,19 +620,22 @@ $(document).ready(function(){
 			}
 		}else if(event.keyCode===27){//esc
 			OC.search.hide();
-			FileList.unfilter();
+			if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
+				FileList.unfilter();
+			}
 		}else{
 			var query=$('#searchbox').val();
 			if(OC.search.lastQuery!==query){
 				OC.search.lastQuery=query;
 				OC.search.currentResult=-1;
+				if (FileList && typeof FileList.filter === 'function') { //TODO add hook system
+						FileList.filter(query);
+				}
 				if(query.length>2){
 					OC.search(query);
-					FileList.filter(query);
 				}else{
 					if(OC.search.hide){
 						OC.search.hide();
-						FileList.unfilter();
 					}
 				}
 			}

@@ -8,16 +8,23 @@ OC.search.catagorizeResults=function(results){
 		types[type].push(results[i]);
 	}
 	return types;
-}
+};
 OC.search.hide=function(){
 	$('#searchresults').hide();
-	FileList.unfilter();
 	if($('#searchbox').val().length>2){
 		$('#searchbox').val('');
+		if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
+			FileList.unfilter();
+		}
 	};
-}
+	if ($('#searchbox').val().length === 0) {
+		if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
+			FileList.unfilter();
+		}
+	}
+};
 OC.search.showResults=function(results){
-	if(results.length==0){
+	if(results.length === 0){
 		return;
 	}
 	if(!OC.search.showResults.loaded){
@@ -31,7 +38,9 @@ OC.search.showResults=function(results){
 			});
 			$(document).click(function(event){
 				OC.search.hide();
-				FileList.unfilter();
+				if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
+					FileList.unfilter();
+				}
 			});
 			OC.search.lastResults=results;
 			OC.search.showResults(results);
@@ -48,7 +57,7 @@ OC.search.showResults=function(results){
 					var row=$('#searchresults tr.template').clone();
 					row.removeClass('template');
 					row.addClass('result');
-					if (i == 0){
+					if (i === 0){
 						row.children('td.type').text(name);
 					}
 					row.find('td.result a').attr('href',type[i].link);
@@ -79,7 +88,7 @@ OC.search.showResults=function(results){
 			}
 		}
 	}
-}
+};
 OC.search.showResults.loaded=false;
 
 OC.search.renderCurrent=function(){
@@ -88,4 +97,4 @@ OC.search.renderCurrent=function(){
 		$('#searchresults tr.result').removeClass('current');
 		$(result).addClass('current');
 	}
-}
+};
