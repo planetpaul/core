@@ -7,6 +7,10 @@
  */
 
 class Test_Image extends PHPUnit_Framework_TestCase {
+	public static function tearDownAfterClass() {
+		unlink(OC::$SERVERROOT.'/tests/data/testimage2.png');
+		unlink(OC::$SERVERROOT.'/tests/data/testimage2.jpg');
+	}
 
 	public function testGetMimeTypeForFile() {
 		$mimetype = \OC_Image::getMimeTypeForFile(OC::$SERVERROOT.'/tests/data/testimage.png');

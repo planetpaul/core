@@ -519,7 +519,11 @@ class OC_Image {
 			return false;
 		}
 		$this->resource = @imagecreatefromstring($str);
-		$this->mimetype = $this->fileinfo->buffer($str);
+		if (\OC_Util::fileInfoLoaded()) {
+			$this->mimetype = $this->fileinfo->buffer($str);
+		} else {
+			$this->mimetype = "image/png";
+		}
 		if(!$this->resource) {
 			OC_Log::write('core', 'OC_Image->loadFromData, couldn\'t load', OC_Log::DEBUG);
 			return false;
@@ -539,7 +543,11 @@ class OC_Image {
 		$data = base64_decode($str);
 		if($data) { // try to load from string data
 			$this->resource = @imagecreatefromstring($data);
-			$this->mimetype = $this->fileinfo->buffer($data);
+			if (\OC_Util::fileInfoLoaded()) {
+				$this->mimetype = $this->fileinfo->buffer($data);
+			} else {
+				$this->mimetype = "image/png";
+			}
 			if(!$this->resource) {
 				OC_Log::write('core', 'OC_Image->loadFromBase64, couldn\'t load', OC_Log::DEBUG);
 				return false;
