@@ -26,7 +26,7 @@
 class OC_Image {
 	protected $resource = false; // tmp resource.
 	protected $imagetype = IMAGETYPE_PNG; // Default to png if file type isn't evident.
-	protected $mimetype;
+	protected $mimetype = "image/png"; // Default to png
 	protected $bit_depth = 24;
 	protected $filepath = null;
 
@@ -521,8 +521,6 @@ class OC_Image {
 		$this->resource = @imagecreatefromstring($str);
 		if (\OC_Util::fileInfoLoaded()) {
 			$this->mimetype = $this->fileinfo->buffer($str);
-		} else {
-			$this->mimetype = "image/png";
 		}
 		if(!$this->resource) {
 			OC_Log::write('core', 'OC_Image->loadFromData, couldn\'t load', OC_Log::DEBUG);
@@ -545,8 +543,6 @@ class OC_Image {
 			$this->resource = @imagecreatefromstring($data);
 			if (\OC_Util::fileInfoLoaded()) {
 				$this->mimetype = $this->fileinfo->buffer($data);
-			} else {
-				$this->mimetype = "image/png";
 			}
 			if(!$this->resource) {
 				OC_Log::write('core', 'OC_Image->loadFromBase64, couldn\'t load', OC_Log::DEBUG);
