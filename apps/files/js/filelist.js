@@ -411,9 +411,9 @@ var FileList={
 
 			// Count types and filesize
 			$.each($('tr[data-file]'), function(index, value) {
-				if (value.dataset.type === 'dir') {
+				if ($(value).data('type') === 'dir') {
 					totalDirs++;
-				} else if (value.dataset.type === 'file') {
+				} else if ($(value).data('type') === 'file') {
 					totalFiles++;
 				}
 				totalSize += parseInt(value.dataset.size);
@@ -458,9 +458,9 @@ var FileList={
 			var totalFiles = 0;
 			var totalSize = 0;
 			$.each($('tr[data-file]'), function(index, value) {
-				if (value.dataset.type === 'dir') {
+				if ($(value).data('type') === 'dir') {
 					totalDirs++;
-				} else if (value.dataset.type === 'file') {
+				} else if ($(value).data('type') === 'file') {
 					totalFiles++;
 				}
 				if (value.dataset.size !== undefined) {
