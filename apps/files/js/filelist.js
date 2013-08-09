@@ -405,29 +405,32 @@ var FileList={
 	},
 	createFileSummary: function() {
 		if( $('#fileList tr').length > 0 ) {
-			var totaldirs = 0;
-			var totalfiles = 0;
-			var totalsize = 0;
+			var totalDirs = 0;
+			var totalFiles = 0;
+			var totalSize = 0;
 
 			// Count types and filesize
 			$.each($('tr[data-file]'), function(index, value) {
-				if (value.dataset.type === 'dir') { totaldirs++; }
-				else if (value.dataset.type === 'file') { totalfiles++; }
-				totalsize += parseInt(value.dataset.size);
+				if (value.dataset.type === 'dir') {
+					totalDirs++;
+				} else if (value.dataset.type === 'file') {
+					totalFiles++;
+				}
+				totalSize += parseInt(value.dataset.size);
 			});
 
 			// Get translations
-			var directoryinfo = n('files', '%n folder', '%n folders', totaldirs);
-			var fileinfo = n('files', '%n file', '%n files', totalfiles);
+			var directoryInfo = n('files', '%n folder', '%n folders', totalDirs);
+			var fileInfo = n('files', '%n file', '%n files', totalFiles);
 
-			var infovars = {
-				dirs: '<span class="dirinfo">'+directoryinfo+'</span><span class="connector">',
-				files: '</span><span class="fileinfo">'+fileinfo+'</span>'
+			var infoVars = {
+				dirs: '<span class="dirinfo">'+directoryInfo+'</span><span class="connector">',
+				files: '</span><span class="fileinfo">'+fileInfo+'</span>'
 			}
 
-			var info = t('files', '{dirs} and {files}', infovars);
-			var filesize = '<td class="filesize">'+humanFileSize(totalsize)+'</td>';
-			$('#fileList').append('<tr class="summary"><td><span class="info">'+info+'</span></td>'+filesize+'<td></td></tr>');
+			var info = t('files', '{dirs} and {files}', infoVars);
+			var fileSize = '<td class="filesize">'+humanFileSize(totalSize)+'</td>';
+			$('#fileList').append('<tr class="summary"><td><span class="info">'+info+'</span></td>'+fileSize+'<td></td></tr>');
 
 			// Show only what's necessary, e.g.: no files: don't show "0 files"
 			if ($('.summary .dirinfo').html().charAt(0) === "0") {
@@ -441,26 +444,34 @@ var FileList={
 		}
 	},
 	updateFileSummary: function() {
-		if ($('#fileList tr').length === 1 && $('.summary').length === 1) { // Check if we should remove the summary to show "Upload something"
+		// Check if we should remove the summary to show "Upload something"
+		if ($('#fileList tr').length === 1 && $('.summary').length === 1) {
 			$('.summary').remove();
-		} else if ($('.summary').length === 0) { // If there's no summary create one (createFileSummary checks if there's data)
+		}
+		// If there's no summary create one (createFileSummary checks if there's data)
+		else if ($('.summary').length === 0) {
 			FileList.createFileSummary();
-		} else if ($('#fileList tr').length > 1 && $('.summary').length === 1) { // There's a summary and data -> Update the summary
-			var totaldirs = 0;
-			var totalfiles = 0;
-			var totalsize = 0;
+		}
+		// There's a summary and data -> Update the summary
+		else if ($('#fileList tr').length > 1 && $('.summary').length === 1) {
+			var totalDirs = 0;
+			var totalFiles = 0;
+			var totalSize = 0;
 			$.each($('tr[data-file]'), function(index, value) {
-				if (value.dataset.type === 'dir') { totaldirs++; }
-				else if (value.dataset.type === 'file') { totalfiles++; }
+				if (value.dataset.type === 'dir') {
+					totalDirs++;
+				} else if (value.dataset.type === 'file') {
+					totalFiles++;
+				}
 				if (value.dataset.size !== undefined) {
-					totalsize += parseInt(value.dataset.size);
+					totalSize += parseInt(value.dataset.size);
 				}
 			});
 
 			// Substitute old content with new translations
-			$('.summary .dirinfo').html(n('files', '%n folder', '%n folders', totaldirs));
-			$('.summary .fileinfo').html(n('files', '%n file', '%n files', totalfiles));
-			$('.summary .filesize').html(humanFileSize(totalsize));
+			$('.summary .dirinfo').html(n('files', '%n folder', '%n folders', totalDirs));
+			$('.summary .fileinfo').html(n('files', '%n file', '%n files', totalFiles));
+			$('.summary .filesize').html(humanFileSize(totalSize));
 
 			// Show only what's necessary (may be hidden)
 			if ($('.summary .dirinfo').html().charAt(0) === "0") {
