@@ -176,6 +176,7 @@ var FileList={
 			$('#fileList').append(element);
 		}
 		$('#emptyfolder').hide();
+		FileList.updateFileSummary();
 	},
 	loadingDone:function(name, id){
 		var mime, tr=$('tr').filterAttr('data-file',name);
@@ -393,6 +394,7 @@ var FileList={
 						});
 						procesSelection();
 						checkTrashStatus();
+						FileList.updateFileSummary();
 					} else {
 						$.each(files,function(index,file) {
 							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
