@@ -432,28 +432,34 @@ var FileList={
 			var fileSize = '<td class="filesize">'+humanFileSize(totalSize)+'</td>';
 			$('#fileList').append('<tr class="summary"><td><span class="info">'+info+'</span></td>'+fileSize+'<td></td></tr>');
 
+			var $dirInfo = $('.summary .dirinfo');
+			var $fileInfo = $('.summary .fileinfo');
+			var $connector = $('.summary .connector');
+
 			// Show only what's necessary, e.g.: no files: don't show "0 files"
-			if ($('.summary .dirinfo').html().charAt(0) === "0") {
-				$('.summary .dirinfo').hide();
-				$('.summary .connector').hide();
+			if ($dirInfo.html().charAt(0) === "0") {
+				$dirInfo.hide();
+				$connector.hide();
 			}
-			if ($('.summary .fileinfo').html().charAt(0) === "0") {
-				$('.summary .fileinfo').hide();
-				$('.summary .connector').hide();
+			if ($fileInfo.html().charAt(0) === "0") {
+				$fileInfo.hide();
+				$connector.hide();
 			}
 		}
 	},
 	updateFileSummary: function() {
+		var $summary = $('.summary');
+
 		// Check if we should remove the summary to show "Upload something"
-		if ($('#fileList tr').length === 1 && $('.summary').length === 1) {
-			$('.summary').remove();
+		if ($('#fileList tr').length === 1 && $summary.length === 1) {
+			$summary.remove();
 		}
 		// If there's no summary create one (createFileSummary checks if there's data)
-		else if ($('.summary').length === 0) {
+		else if ($summary.length === 0) {
 			FileList.createFileSummary();
 		}
 		// There's a summary and data -> Update the summary
-		else if ($('#fileList tr').length > 1 && $('.summary').length === 1) {
+		else if ($('#fileList tr').length > 1 && $summary.length === 1) {
 			var totalDirs = 0;
 			var totalFiles = 0;
 			var totalSize = 0;
@@ -468,26 +474,30 @@ var FileList={
 				}
 			});
 
+			var $dirInfo = $('.summary .dirinfo');
+			var $fileInfo = $('.summary .fileinfo');
+			var $connector = $('.summary .connector');
+
 			// Substitute old content with new translations
-			$('.summary .dirinfo').html(n('files', '%n folder', '%n folders', totalDirs));
-			$('.summary .fileinfo').html(n('files', '%n file', '%n files', totalFiles));
+			$dirInfo.html(n('files', '%n folder', '%n folders', totalDirs));
+			$fileInfo.html(n('files', '%n file', '%n files', totalFiles));
 			$('.summary .filesize').html(humanFileSize(totalSize));
 
 			// Show only what's necessary (may be hidden)
-			if ($('.summary .dirinfo').html().charAt(0) === "0") {
-				$('.summary .dirinfo').hide();
-				$('.summary .connector').hide();
+			if ($dirInfo.html().charAt(0) === "0") {
+				$dirInfo.hide();
+				$connector.hide();
 			} else {
-				$('.summary .dirinfo').show();
+				$dirInfo.show();
 			}
-			if ($('.summary .fileinfo').html().charAt(0) === "0") {
-				$('.summary .fileinfo').hide();
-				$('.summary .connector').hide();
+			if ($fileInfo.html().charAt(0) === "0") {
+				$fileInfo.hide();
+				$connector.hide();
 			} else {
-				$('.summary .fileinfo').show();
+				$fileInfo.show();
 			}
-			if ($('.summary .dirinfo').html().charAt(0) !== "0" && $('.summary .fileinfo').html().charAt(0) !== "0") {
-				$('.summary .connector').show();
+			if ($dirInfo.html().charAt(0) !== "0" && $fileInfo.html().charAt(0) !== "0") {
+				$connector.show();
 			}
 		}
 	}
