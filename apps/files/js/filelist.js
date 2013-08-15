@@ -429,7 +429,14 @@ var FileList={
 			}
 
 			var info = t('files', '{dirs} and {files}', infoVars);
-			var fileSize = '<td class="filesize">'+humanFileSize(totalSize)+'</td>';
+
+			// don't show the filesize column, if filesize is NaN (e.g. in trashbin)
+			if (totalSize !== totalSize) {
+				var fileSize = '';
+			} else {
+				var fileSize = '<td class="filesize">'+humanFileSize(totalSize)+'</td>';
+			}
+
 			$('#fileList').append('<tr class="summary"><td><span class="info">'+info+'</span></td>'+fileSize+'<td></td></tr>');
 
 			var $dirInfo = $('.summary .dirinfo');
