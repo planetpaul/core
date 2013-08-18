@@ -238,7 +238,7 @@ class Helper {
 	 * @return bool true if configuration seems to be OK
 	 */
 	public static function checkConfiguration() {
-		if(openssl_pkey_new(array('private_key_bits' => 4096))) {
+		if(self::getOpenSSLPkey()) {
 			return true;
 		} else {
 			while ($msg = openssl_error_string()) {
@@ -246,6 +246,16 @@ class Helper {
 			}
 			return false;
 		}
+	}
+
+	/**
+	 * Create an openssl pkey with config-supplied settings
+	 * @return resource The pkey resource created
+	 */
+	public static function getOpenSSLPkey() {
+		$config = array('private_key_bits' => 4096);
+		$config = array_merge(\OCP\Config::getSystemValue('openssl'), $config);
+		return openssl_pkey_new($config);
 	}
 
 	/**
