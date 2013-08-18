@@ -10,6 +10,8 @@ if( file_exists( $autosetup_file )) {
 	unlink($autosetup_file);
 }
 
+OC_Util::addScript( '3rdparty', 'strengthify/jquery.strengthify' );
+OC_Util::addStyle( '3rdparty', 'strengthify/strengthify' );
 OC_Util::addScript('setup');
 
 $hasSQLite = class_exists('SQLite3');

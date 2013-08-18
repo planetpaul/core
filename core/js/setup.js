@@ -79,4 +79,15 @@ $(document).ready(function() {
 		$('#showAdvanced').click();
 		$('input[type="radio"]').first().click();
 	}
+
+	$('#adminpass').strengthify({
+		zxcvbn: OC.linkTo('3rdparty','zxcvbn/js/zxcvbn.js'),
+		titles: [
+			t('core', 'Very weak password'),
+			t('core', 'Weak password'),
+			t('core', 'So-so password'),
+			t('core', 'Good password'),
+			t('core', 'Strong password')
+		]
+	});
 });

@@ -240,6 +240,26 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 	margin-left: -4px;
 }
 
+/* strengthify wrapper */
+
+#body-login .strengthify-wrapper {
+	display: inline-block;
+	position: relative;
+	left: 15px;
+	top: -21px;
+	width: 252px;
+	opacity: .8;
+}
+
+#body-login .strengthify-bg {
+	display: none;
+}
+
+.lte9 #body-login .strengthify-wrapper {
+	width: 271px;
+	left: 6px;
+}
+
 /* Icons for username and password fields to better recognize them */
 #adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
 #adminlogin+label+img, #adminpass-icon, #user+label+img, #password-icon {
