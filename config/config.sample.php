@@ -195,6 +195,6 @@ $CONFIG = array(
 
 // Extra SSL options to be used for configuration
 'openssl' => array(
-	'config' => 'C:/xampp/apache/bin/openssl.cnf',
+	//'config' => '/absolute/location/of/openssl.cnf',
 ),
 );
