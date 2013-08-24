@@ -144,6 +144,7 @@ var FileList={
 	remove:function(name){
 		$('tr').filterAttr('data-file',name).find('td.filename').draggable('destroy');
 		$('tr').filterAttr('data-file',name).remove();
+		FileList.updateFileSummary();
 		if($('tr[data-file]').length==0){
 			$('#emptyfolder').show();
 		}
@@ -431,7 +432,7 @@ var FileList={
 			var info = t('files', '{dirs} and {files}', infoVars);
 
 			// don't show the filesize column, if filesize is NaN (e.g. in trashbin)
-			if (totalSize !== totalSize) {
+			if (isNaN(totalSize)) {
 				var fileSize = '';
 			} else {
 				var fileSize = '<td class="filesize">'+humanFileSize(totalSize)+'</td>';
