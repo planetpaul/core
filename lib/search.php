@@ -25,12 +25,12 @@ namespace OC;
 /**
  * Provide an interface to all search providers
  */
-class Search{
-    
+class Search {
+
 	static private $providers=array();
 	static private $registeredProviders=array();
 
-        /**
+	/**
 	 * Search all providers for $query
 	 * @param string query
 	 * @return array An array of OC\Search\Result's
@@ -43,7 +43,7 @@ class Search{
 		}
 		return $results;
 	}
-        
+
 	/**
 	 * Remove all registered search providers
 	 */
@@ -51,17 +51,17 @@ class Search{
 		self::$providers=array();
 		self::$registeredProviders=array();
 	}
-        
-        /**
+
+	/**
 	 * Remove one existing search provider
 	 * @param string $provider class name of a OC\Search\Provider
 	 */
 	public static function removeProvider($provider) {
 		self::$registeredProviders = array_filter(
-				self::$registeredProviders,
-				function ($element) use ($provider) {
-					return ($element['class'] != $provider);
-				}
+			self::$registeredProviders,
+			function ($element) use ($provider) {
+				return ($element['class'] != $provider);
+			}
 		);
 		// force regeneration of providers on next search
 		self::$providers=array();
@@ -74,8 +74,8 @@ class Search{
 	public static function registerProvider($class, $options=array()) {
 		self::$registeredProviders[]=array('class'=>$class, 'options'=>$options);
 	}
-        
-        /**
+
+	/**
 	 * Create instances of all the registered search providers
 	 */
 	private static function initProviders() {
@@ -88,4 +88,5 @@ class Search{
 			self::$providers[]=new $class($options);
 		}
 	}
+
 }
