@@ -417,7 +417,7 @@ var FileList={
 				} else if ($(value).data('type') === 'file') {
 					totalFiles++;
 				}
-				totalSize += parseInt(value.dataset.size);
+				totalSize += parseInt($(value).data('size'));
 			});
 
 			// Get translations
@@ -477,8 +477,8 @@ var FileList={
 				} else if ($(value).data('type') === 'file') {
 					totalFiles++;
 				}
-				if (value.dataset.size !== undefined) {
-					totalSize += parseInt(value.dataset.size);
+				if ($(value).data('size') !== undefined) {
+					totalSize += parseInt($(value).data('size'));
 				}
 			});
 
