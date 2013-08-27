@@ -3,5 +3,5 @@ print_unescaped($l->t("Hey there,\n\njust letting you know that %s shared %s wit
 ?>
 
 --
-<?php p($theme->getName() . ' - ' . $theme->getSlogan()); ?>
+<?php p($theme->getEmailFooter()); ?>
 <?php print_unescaped("\n".$theme->getBaseUrl());
