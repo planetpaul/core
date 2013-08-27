@@ -20,7 +20,7 @@ class Helper
 			if ($dirContent === false){
 				return null;
 			}
-			while($entryName = readdir($dirContent)) {
+			while(($entryName = readdir($dirContent)) !== false) {
 				if (!\OC\Files\Filesystem::isIgnoredDir($entryName)) {
 					$pos = strpos($dir.'/', '/', 1);
 					$tmp = substr($dir, 0, $pos);
